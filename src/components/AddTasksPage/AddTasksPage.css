@@ -1,0 +1,175 @@
+
+
+.task-form_addTask {
+    
+    background-color: #f5f5f5; /* Фон */
+    
+    border-radius: 10px; /* Округлые углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирует содержимое по горизонтали */
+    justify-content: center; /* Центрирует по вертикали */
+    margin: 0 auto; /* Устанавливаем центрирование по ширине */
+    
+}
+
+.task-form_addTask h3 {
+    margin-bottom: 30px; /* Отступ под заголовком */
+    
+    font-size: 24px; /* Размер шрифта */
+}
+
+.form-group_addTask {
+    width: 100%; /* Используем всю ширину */
+    margin-bottom: 25px; /* Отступ между элементами */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Элементы выравнены слева */
+    
+}
+.submit-button_addTask:disabled {
+    background-color: grey;  /* фон для disabled */
+    cursor: not-allowed;
+    opacity: 0.7;  /* необязательно: делает кнопку "выключенной" на вид */
+  }
+
+.form-group2_addTask {
+    margin-right: 7em;
+    width: 30%; /* Используем всю ширину */
+    margin-bottom: 25px; /* Отступ между элементами */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Элементы выравнены слева */
+}
+.checkboxaddtask{
+    font-weight: bold;
+    text-align: left; /* Выравнивание метки слева */
+    display: "inline-flex";
+     align-items: center;
+}
+
+.form-group_addTask label {
+    display: block;
+    margin-bottom: 8px; /* Отступ между меткой и полем */
+    font-weight: bold;
+    text-align: left; /* Выравнивание метки слева */
+}
+.form-group2_addTask label {
+    display:inline;
+    margin-bottom: 8px; /* Отступ между меткой и полем */
+    font-weight: bold;
+    text-align: left; /* Выравнивание метки слева */
+}
+
+.form-group_addTask input,
+.form-group_addTask select,
+.form-group_addTask textarea {
+    width: 40em; /* Занимает всю ширину контейнера */
+    padding: 15px; /* Внутренние отступы */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group2_addTask select{
+    width: 150%; /* Занимает всю ширину контейнера */
+    padding: 15px; /* Внутренние отступы */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group_addTask textarea {
+    resize: none; /* Убираем возможность изменения размера */
+    height: 15em; /* Высота текстовой области */
+}
+
+.submit-button_addTask {
+    display: block; /* Центрируем через блочный элемент */
+    margin: 20px auto; /* Авто-отступы для выравнивания */
+    padding: 15px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button_addTask:hover {
+    background-color: #0056b3;
+}
+
+.checkbox-group_addTask {
+    display: flex;
+    flex-direction: column; /* Элементы в колонку */
+    gap: 12px; /* Расстояние между строками */
+    align-items: flex-start; /* Выравниваем элементы по левому краю */
+    width: 100%; /* Ширина группы чекбоксов */
+}
+
+.checkbox-label_addTask {
+    display: flex;
+    align-items: center; /* Центрируем по вертикали */
+    gap: 8px; /* Расстояние между чекбоксом и текстом */
+    font-size: 16px; /* Размер текста */
+    cursor: pointer; /* Курсор для интерактивности */
+}
+
+.checkbox-label_addTask input[type="checkbox"] {
+    margin: 0; /* Убираем стандартные отступы */
+    width: 18px; /* Фиксированный размер чекбокса */
+    height: 18px; /* Фиксированный размер чекбокса */
+    accent-color: #007BFF; /* Цвет активного чекбокса */
+}
+.checkbox-label_addTask2{
+    margin-top: 10px;
+    width: 18px; /* Фиксированный размер чекбокса */
+    height: 18px; /* Фиксированный размер чекбокса */
+    accent-color: #007BFF; /* Цвет активного чекбокса */
+    
+}
+
+.checkbox-label_addTask span {
+    position: relative; /* Для смещения текста */
+    top: -2px; /* Поднимаем текст чуть выше */
+    line-height: 1; /* Лишние отступы внутри текста */
+    white-space: nowrap; /* Не переносим текст */
+    text-align: left; /* Текст выравниваем по левому краю */
+    left: 0.5em;
+}
+
+.form-row {
+    display: flex; /* Размещаем элементы в строку */
+    gap: 20px; /* Расстояние между полями */
+  }
+  
+  .form-row .form-group_addTask {
+    flex: 1; /* Поля одинаково растягиваются для равного размера */
+    display: flex;
+    flex-direction: column; /* Оставляем вертикальное расположение label и input */
+  }
+  @media (max-width: 768px) {
+    .column_style {
+      flex-direction: column!important; /* Переключаем на колонку на мобильных */
+    }
+    .react-time-picker__button{
+        margin-top: -12px;
+    }
+    .modal-content4{
+        max-height: 90%;
+    }
+  }
+  @media (max-width: 1150px) {
+    .column_style2 {
+        display: flex;
+        flex-direction: column !important;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+      }
+    
+  }

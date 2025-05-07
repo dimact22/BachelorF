@@ -1,0 +1,283 @@
+/* Родительский контейнер для центрирования */
+.table-container {
+    display: flex;
+    justify-content: center;   /* Центрирует таблицу по горизонтали */
+    align-items: center;       /* Центрирует таблицу по вертикали */
+    min-height: 100vh;         /* Обеспечивает растяжение на весь экран */
+  }
+  
+  .task-list {
+    width: 100%; /* или другая ширина таблицы */
+    margin: 0 auto;  /* Автоматические отступы слева и справа */
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    table-layout: fixed;
+  }
+  
+  .task-list th, .task-list td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  
+  .task-list th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+  }
+  
+ 
+  
+  .task-list tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .action-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 2px;
+  }
+  
+  .action-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .start-button {
+    background-color: #28a745;
+  }
+  .datefirst {
+    width: 25em;
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    height: 4vw;
+    margin-right: 1vw;
+  }
+  .datesecond {
+      width: 25em;
+      padding: 10px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      height: 4vw;
+      margin-left: 1vw;
+  }
+  .date-separator {
+    display: inline;
+      margin: 0 10px;
+    
+  }
+  
+  @media (max-width: 1150px) {
+    .date-separator {
+      display: none;
+    }
+    .datefirst {
+      
+      margin-right: 0vw;
+    }
+    .datesecond {
+        margin-top: 10px;
+        margin-left: 0vw;
+    }
+  }
+  .pause-button {
+    background-color: #ffc107;
+  }
+  
+  .modal-overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);  /* Тёмный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;  /* Растягивается на всю ширину экрана */
+    height: 100%; /* Растягивается на всю высоту экрана */
+    z-index: 1000; /* Обеспечивает, что попап будет поверх других элементов */
+  }
+  
+  /* Контейнер с контентом модального окна */
+  .modal-content2 {
+    background-color: white;
+    padding: 20px;
+    width: 800%; /* Максимальная ширина окна */
+    max-width: 80%; /* Устанавливаем максимальную ширину */
+    height: 90vh; /* Устанавливаем максимальную высоту окна (80% от высоты экрана) */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow-y: auto; /* Появление вертикальной прокрутки, если контент выходит за пределы */
+    word-wrap: break-word; /* Перенос слов, если они не помещаются */
+    white-space: pre-wrap; /* Перенос строк внутри блока */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+  }
+  @media (max-width: 768px) {
+    .modal-content2 {
+      padding-bottom: 200px;
+
+    }
+  }
+
+  .custom-datepicker .react-datepicker__input-container input {
+    font-size: 1.3em;
+    padding: 10px 40px 10px 10px;  /* добавим отступ справа для иконки */
+    border: 1px solid #000000;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #fff;
+    position: relative; /* Для корректного отображения иконки */
+}
+
+/* Используем псевдоэлемент для добавления иконки в инпут */
+.custom-datepicker .react-datepicker__input-container input::after {
+    content: "\f133";  /* Это код для иконки календаря из FontAwesome, может отличаться в зависимости от иконки */
+    font-family: 'FontAwesome';  /* Указываем шрифт FontAwesome */
+    position: absolute;
+    right: 10px;  /* Позиционируем справа */
+    top: 50%;
+    transform: translateY(-50%); /* Для вертикальной центровки */
+    font-size: 1.5em;  /* Размер иконки */
+    color: #007bff;  /* Цвет иконки */
+    pointer-events: none;  /* Иконка не будет блокировать ввод в инпут */
+}
+.form-group3_addTask {
+  width: 100%; /* Используем всю ширину */
+  margin-top: 1em; /* Отступ между элементами */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Элементы выравнены слева */
+}
+.form-group3time_addTask {
+  width: 100%; /* Используем всю ширину */
+  margin-top: 1em; /* Отступ между элементами */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Элементы выравнены слева */
+}
+.form-group3_addTask textarea {
+  
+  resize: none;
+  height: 15em; /* Высота текстовой области */
+}
+.form-group3_addTask label {
+  display: block;
+  margin-bottom: 8px; /* Отступ между меткой и полем */
+  font-weight: bold;
+  text-align: left; /* Выравнивание метки слева */
+}
+.form-group3time_addTask label {
+  display: block;
+  margin-bottom: 8px; /* Отступ между меткой и полем */
+  font-weight: bold;
+  text-align: left; /* Выравнивание метки слева */
+}
+.form-group3_addTask select{
+  width: 150%; /* Занимает всю ширину контейнера */
+  padding: 15px; /* Внутренние отступы */
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.form-group3_addTask input,
+.form-group3_addTask select,
+.form-group3_addTask textarea {
+    width: 20em; /* Занимает всю ширину контейнера */
+    padding: 15px; /* Внутренние отступы */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.timecustomise{
+  width: 20em; /* Занимает всю ширину контейнера */
+  padding: 15px; /* Внутренние отступы */
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  border-radius: 4px;
+  font-size: 16px;  
+  height: 4.4vw;
+}
+.timecustomise input{
+height: 2vw;
+}
+.react-time-picker__inputGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.1vw;
+  outline: none;
+  border-radius: 5px;
+  
+  
+}
+.react-time-picker__wrapper{
+  height: 110%;
+  border: none !important;
+}
+.react-time-picker__button{
+  margin-right: -0.6vw;
+  margin-left: 0.6vw;
+}
+  /* Кнопка для закрытия модального окна */
+  .modal-close-button2 {
+    position: absolute;
+    right: 0em;
+    top: -0.5em;
+    z-index: 1001;
+    font-size: 15px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color:black;
+  }
+  
+  .toggle2-button {
+    align-self: flex-start;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-top: -1em;
+    color: #333;
+  }
+  
+  .toggle2-button:hover {
+    background-color: #ddd;
+  }
+  .task-detail-item{
+    margin-bottom: 0.2em;
+  }
+  .table-container table th {
+    flex: 1; /* Равномерное распределение ширины по умолчанию */
+  }
+  .table-container table th.date-column {
+    flex: 2; /* Делаем ширину "Дата кінця" в 2 раза больше остальных */
+  }
+  
+  .form-row .form-group3_addTask {
+    flex: 1 1 calc(33.333% - 20px); /* Элементы занимают треть строки, с учетом отступов */
+    display: flex;
+    flex-direction: column; /* Оставляем вертикальное расположение label и input */
+    align-items: center; /* Центрируем содержимое в каждом поле */
+    margin: 0; /* Убираем лишние внешние отступы */
+    box-sizing: border-box; /* Учет внутреннего отступа и ширины для удобного расчета */
+  }
+  
+  .form-group3_addTask select,
+  .form-group3_addTask input,
+  .form-group3_addTask textarea {
+    width: 100%; /* Элементы заполняют доступную ширину родителя */
+  }

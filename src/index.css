@@ -1,13 +1,25 @@
-body {
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Стиль хедера */
+.header {
+  position: fixed;  /* Фиксируем хедер */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #5267e4;
+  color: white;
+  padding: 0;
+  text-align: center;
+  z-index: 1000; /* Убедимся, что хедер всегда сверху */
 }

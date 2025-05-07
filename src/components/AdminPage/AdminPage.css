@@ -1,0 +1,764 @@
+.page-container {
+  margin-top: 10ex;
+  display: flex;
+  min-height: 100vh; /* Контейнер занимает всю высоту экрана */
+  box-sizing: border-box;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
+  min-width: 25%; /* Ширина сайдбара */
+}
+.sidebar2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  margin-top: 10em;
+  
+  height: 100%;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
+  min-width: 15em; /* Ширина сайдбара */
+}
+@media (max-width: 1050px) {
+  .sidebar2 {
+    flex-direction: row;
+    height: 7%;
+    margin-top: 9.5em;
+    width: 100%;
+align-items: center;
+justify-content: center;
+  }
+  .content-area2{
+    margin-left: 0%!important;
+    margin-top: -30%!important;
+  }
+
+}
+
+.sidebar2 button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.sidebar2 button:hover {
+  background-color: #0056b3;
+}
+
+
+.sidebar button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.sidebar button:hover {
+  background-color: #0056b3;
+}
+
+.content-area {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center; /* Центрируем по горизонтали */
+  padding: 20px;
+  
+  
+}
+.content-area2 {
+  margin-top: 0em;
+  padding: 20px;
+  margin-left: 20.5%;
+  
+}
+
+.registration-form{
+  margin-top: 20px;
+}
+
+.user-table {
+  margin-top: 20px;
+  width: 80%;              /* Форма и таблица будут занимать всю ширину контейнера */
+}
+
+/* Стили для формы */
+.registration-form {
+  width: 100%;              /* Форма занимает всю ширину контейнера */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;   /* Элементы будут располагаться вертикально */
+  margin-bottom: 3%;
+}
+
+.registration-form input,
+.registration-form select {
+  width: 100%;              /* Полная ширина для инпутов и селектов */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;         /* Расстояние сверху для инпутов и селектов */
+  margin-bottom: 10px;      /* Расстояние снизу для инпутов и селектов */
+  box-sizing: border-box;   /* Включает паддинги и бордеры в ширину элемента */
+}
+
+/* Стили для кнопки */
+.create-button {
+  margin-top: 20px;         /* Отступ сверху для кнопки */
+  padding: 10px 20px;       /* Отступы внутри кнопки */
+  font-size: 16px;          /* Размер шрифта */
+  background-color: #28a745; /* Цвет фона */
+  color: white;             /* Цвет текста */
+  border: none;             /* Без границы */
+  border-radius: 5px;       /* Скругленные углы */
+  cursor: pointer;          /* Курсор как указатель */
+  transition: background-color 0.3s ease; /* Плавный переход для фона */
+  width: 50%;              /* Ширина кнопки будет на 100% ширины формы */
+  text-align: center;       /* Текст по центру */
+  margin: 20px auto 0;      /* Центрируем кнопку с отступами сверху и снизу */
+}
+
+/* Кнопка при наведении */
+.create-button:hover {
+  background-color: #218838; /* Цвет фона при наведении */
+}
+.centered-div {
+  display: flex;
+  justify-content: center; /* Горизонтальное выравнивание */
+  align-items: center; /* Вертикальное выравнивание */
+  height: 100%; /* Обеспечьте высоту для вертикального центрирования */
+}
+/* Стили для таблицы */
+.user-table {
+  margin-top: 20px; /* Отступ между формой и таблицей */
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  background-color: white;
+}
+.user-table th,
+.user-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+}
+
+.delete-button {
+  color: white;
+  background-color: #e74c3c;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+.button-container {
+  display: flex;            
+  justify-content: space-between; 
+  width: 100%;              
+}
+
+.toggle-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.delete-button {
+  padding: 5px 10px;         /* Отступы внутри кнопки */
+  font-size: 14px;            /* Размер шрифта */
+  background-color: #e74c3c; /* Красный фон */
+  color: white;              /* Белый цвет текста */
+  border: none;              /* Без границ */
+  border-radius: 5px;        /* Скругленные углы */
+  cursor: pointer;           /* Курсор как указатель */
+  transition: background-color 0.3s ease; /* Плавный переход для фона */
+  text-align: center;        /* Текст по центру */
+}
+
+.delete-button:hover {
+  background-color: #c0392b; /* Темнее красный при наведении */
+}
+
+.delete-button:focus {
+  outline: none;             /* Убираем обводку при фокусе */
+}
+
+.sidebar button.active {
+  background-color: #0056b3; /* Цвет для активной кнопки */
+}
+.sidebar2 button.active {
+  background-color: #0056b3; /* Цвет для активной кнопки */
+}
+
+/* Контейнер формы */
+.create-group-form-container {
+  margin-top: 20px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Группа элементов формы */
+.form-group-item {
+  margin-bottom: 15px;
+}
+
+/* Стили для метки "Керівник" */
+.label-manager {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.label-users {
+  font-size: 16px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+/* Стили для select (выбор пользователя или менеджера) */
+.select-manager, .select-users {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Заголовок для списка добавленных пользователей */
+.added-users-title {
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Список добавленных пользователей */
+.added-users-list {
+  margin-top: 15px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Элементы добавленных пользователей */
+.added-user-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Кнопка удаления пользователя */
+.remove-user-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.remove-user-button:hover {
+  background-color: #c0392b;
+}
+
+/* Кнопка отправки формы */
+.submit-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+}
+
+.input-group-name {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  
+}
+
+.input-group-name:focus {
+  border-color: #007bff; /* Цвет рамки при фокусе */
+  outline: none;
+}
+
+/* Стиль для метки поля названия группы */
+.label-group-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Дополнительные стили для формы */
+.create-group-form-container {
+  width: 100%;
+  padding: 30px;
+  margin-bottom:8%;
+  background-color: #f9f9f9;
+  border-radius: 8px;   
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/* Общие стили для всех элементов формы */
+.form-group-item {
+  margin-bottom: 15px;
+}
+
+.group-table {
+  margin: 20px;
+  border-collapse: collapse;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.group-table h2 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.group-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.group-table th,
+.group-table td {
+  text-align: left;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.group-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #555;
+}
+
+.group-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.group-table td em {
+  color: #888;
+  font-style: italic;
+}
+
+.group-table .delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.group-table .delete-button:hover {
+  background-color: #e60000;
+}
+.create-group-form-container button{
+  display: flex;
+  flex-direction: column; /* Элементы идут вертикально */
+  align-items: center; /* Центрирует содержимое горизонтально */
+  justify-content: center;
+}
+
+.user-table {
+  margin: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  text-align: center; /* Горизонтальное центрирование текста */
+  vertical-align: middle; /* Вертикальное центрирование текста */
+}
+
+.user-table th,
+.user-table td {
+  text-align: left;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #555;
+}
+
+
+.user-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Стиль для инпутов в режиме редактирования */
+.user-table input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Кнопка "Зберегти" */
+.save-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 5px; /* Отступ между кнопками */
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+/* Кнопка "Відмінити" */
+.cancel-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* Кнопка "Змінити" */
+.edit-button {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 5px; /* Отступ между кнопками */
+  margin-bottom: 2px;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Кнопка "Видалити" */
+.delete-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+/* Стиль для модального окна */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 50%;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content .form-group {
+  margin-bottom: 15px;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: black;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+.edit-button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button {
+  padding: 5px 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.toggle-password2 {
+  position: absolute;
+  right: 1em;
+  margin-top: 0.05%;
+  margin-right: 10%;
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.selectedgroup {
+  background-color: #cde1f7;
+}
+
+.action-panel {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.edit-button,
+.delete-button {
+  padding: 0.5em 1em;
+  font-size: 1em;
+}
+
+.action-popup {
+  position: fixed;
+  bottom: 2em; /* Расстояние от нижней границы экрана */
+  height: 20%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center; /* Центрует кнопки по горизонтали */
+  align-items: center; /* Центрует кнопки по вертикали в области action-popup */
+  background: #ededed;
+  padding: 1em 0;
+  border-top: 2px solid #eaeaea;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  animation: slide-up 0.3s ease forwards;
+}
+
+.popup-button {
+  padding: 0.3em 1em; /* Уменьшена высота кнопок */
+  font-size: 0.9em; /* Небольшое уменьшение размера шрифта */
+  border: none;
+  border-radius: 5px;
+  height: 50%;
+  width: 20%;
+  cursor: pointer;
+  margin: 0 1em; /* Отступы между кнопками */
+}
+
+.edit-button2 {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.delete-button2 {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.cancel-button2 {
+  background-color: #808080;
+  color: #fff;
+}
+
+@keyframes slide-up {
+  from {
+    bottom: -5em;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+.modal-overlay3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Затемнённый фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Поверх всего */
+}
+
+.modal-content3 {
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 60%; /* Убедитесь, что окно адаптируется к экрану */
+  animation: scale-in 0.3s ease-out;
+  overflow: hidden;
+}
+.createuser-button {             
+  padding: 10px 20px;             /* Добавление отступов для кнопки */
+  width: 8vw;
+  height: 4.5vw;
+  width: 100%;
+  margin-right: 0px;
+  cursor: pointer;                /* Курсор при наведении */
+  transition: background-color 0.3s ease;  /* Плавный переход при наведении */
+}
+@media (max-width: 768px) {
+  .createuser-button { 
+    width: 110px!important;
+    height: 80px!important;
+  }
+}
+
+.modal-overlay4 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);  /* Тёмный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;  /* Растягивается на всю ширину экрана */
+  height: 100%; /* Растягивается на всю высоту экрана */
+  z-index: 1000; /* Обеспечивает, что попап будет поверх других элементов */
+}
+
+/* Контейнер с контентом модального окна */
+.modal-content4 {
+  background-color: white;
+  padding: 20px;
+  max-width: 90%; /* Устанавливаем максимальную ширину */
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow-y: auto; /* Появление вертикальной прокрутки, если контент выходит за пределы */
+  word-wrap: break-word; /* Перенос слов, если они не помещаются */
+  white-space: pre-wrap; /* Перенос строк внутри блока */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}
