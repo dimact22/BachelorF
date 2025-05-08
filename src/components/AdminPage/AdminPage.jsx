@@ -424,25 +424,33 @@ const ViewGroups = ({ token, usersToAdd, usersForGroup }) => {
           </tr>
         </thead>
         <tbody>
-          {groups.map((group, index) => (
-            <tr
-              key={index}
-              onClick={() => setSelectedGroup(group)}
-              className={selectedGroup === group ? "selectedgroup" : ""}
-            >
-              <td>{group.group_name}</td>
-              <td>{group.manager_phone}</td>
-              <td>
-                {group.user_phones && group.user_phones.length > 0 ? (
-                  group.user_phones.join(", ")
-                ) : (
-                  <em>Немає користувачів</em>
-                )}
-              </td>
-              <td>{group.active ? "Так" : "Ні"}</td>
-            </tr>
-          ))}
-        </tbody>
+  {groups.length === 0 ? (
+    <tr>
+      <td colSpan="4" style={{ textAlign: "center" }}>
+        Немає груп
+      </td>
+    </tr>
+  ) : (
+    groups.map((group, index) => (
+      <tr
+        key={index}
+        onClick={() => setSelectedGroup(group)}
+        className={selectedGroup === group ? "selectedgroup" : ""}
+      >
+        <td>{group.group_name}</td>
+        <td>{group.manager_phone}</td>
+        <td>
+          {group.user_phones && group.user_phones.length > 0 ? (
+            group.user_phones.join(", ")
+          ) : (
+            <em>Немає користувачів</em>
+          )}
+        </td>
+        <td>{group.active ? "Так" : "Ні"}</td>
+      </tr>
+    ))
+  )}
+</tbody>
       </table>
 
       {selectedGroup && (
@@ -658,22 +666,30 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr
-              key={user._id}
-              onClick={() => handleRowSelect(user)}
-              className={selectedUser?._id === user._id ? "selectedgroup" : ""}
-            >
-              <td>{user.name}</td>
-              <td>{user.phone}</td>
-              <td>
-                {user.status === "add" && "Постановщик задач"}
-                {user.status === "receive" && "Отримувач задач"}
-                {user.status === "add_and_receive" && "Постановщик та отримувач задач"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {users.length === 0 ? (
+    <tr>
+      <td colSpan="3" style={{ textAlign: "center" }}>
+        Користувачів немає
+      </td>
+    </tr>
+  ) : (
+    users.map((user) => (
+      <tr
+        key={user._id}
+        onClick={() => handleRowSelect(user)}
+        className={selectedUser?._id === user._id ? "selectedgroup" : ""}
+      >
+        <td>{user.name}</td>
+        <td>{user.phone}</td>
+        <td>
+          {user.status === "add" && "Постановщик задач"}
+          {user.status === "receive" && "Отримувач задач"}
+          {user.status === "add_and_receive" && "Постановщик та отримувач задач"}
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
       </table>
       </div>
 

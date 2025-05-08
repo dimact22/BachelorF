@@ -269,7 +269,6 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
         body: JSON.stringify({
           cancel_time: currentTime,
           id_task: task._id,
-          keyTime: task.key,
           comment, // Отправка комментария
         }),
       });

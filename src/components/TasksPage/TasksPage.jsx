@@ -750,7 +750,7 @@ const TaskItem = ({ task, onTaskUpdated, onTaskSelected, TaskSelected }) => {
     dateObject.setHours(0, 0, 0, 0);
     console.log("=====", dateObject)
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_URL}/get_infoprocent_about_task/${task.group}/${task._id}-${dateObject.toString()}`, {
+      fetch(`${process.env.REACT_APP_URL}/get_infoprocent_about_task/${task.group}/${task._id}`, {
         method: "GET"
       })
         .then((response) => response.json())
