@@ -129,133 +129,152 @@ const AdminPage = () => {
   );
 };
 
-const CreateUserForm = ({ fetchUsers,fetchUsersToAdd,fetchUsersForGroup, token, onClose }) => {
-  console.log("CreateUserForm получил props:", { fetchUsers, fetchUsersToAdd, token });
-  const [phone, setPhone] = useState("+380");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState("add");
-  const [name, setName] = useState("");
-  const [errors, setErrors] = useState({
-    phone: "",
-    password: "",
-    name: "",
-  });
-
-  const validatePhone = (phone) => /^\+380\d{9,}$/.test(phone);
-  const validatePassword = (password) => password.length >= 6 && password.length <= 20;
-
-  const handleCreateUser = async (e) => {
-    e.preventDefault();
-    let phoneError = "";
-    let passwordError = "";
-    let nameError = "";
-
-    if (!validatePhone(phone)) {
-      phoneError = "Номер телефону повинен починатися з +380 і містити мінімум 9 цифр.";
-    }
-    if (!validatePassword(password)) {
-      passwordError = "Пароль повинен бути від 6 до 20 символів.";
-    }
-    if (phoneError || passwordError) {
-      setErrors({
-        phone: phoneError,
-        password: passwordError,
-        name: nameError,
-      });
-      return;
-    }
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_URL}/register/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ phone, password, status, name }),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Network error");
+  const CreateUserForm = ({ fetchUsers, fetchUsersToAdd, token, onClose }) => {
+    console.log("CreateUserForm получил props:", { fetchUsers, fetchUsersToAdd, token });
+    
+    const [phone, setPhone] = useState("+380");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [status, setStatus] = useState("add");
+    const [name, setName] = useState("");
+    const [telegramName, setTelegramName] = useState("");  // Новое состояние для Telegram имени
+    const [errors, setErrors] = useState({
+      phone: "",
+      password: "",
+      name: "",
+      telegramName: "",  // Ошибки для Telegram имени
+    });
+  
+    const validatePhone = (phone) => /^\+380\d{9,}$/.test(phone);
+    const validatePassword = (password) => password.length >= 6 && password.length <= 20;
+    const validateTelegramName = (telegramName) => telegramName.length >= 5 && telegramName.startsWith('@');
+  
+    const handleCreateUser = async (e) => {
+      e.preventDefault();
+      let phoneError = "";
+      let passwordError = "";
+      let nameError = "";
+      let telegramNameError = "";
+  
+      if (!validatePhone(phone)) {
+        phoneError = "Номер телефону повинен починатися з +380 і містити мінімум 9 цифр.";
       }
-      await fetchUsers();
-      await fetchUsersToAdd();
-      await fetchUsersForGroup();
-      setPhone("+380");
-      setPassword("");
-      setStatus("add");
-      setName("");
-      alert("Користувача успішно створено!");
-      onClose(); // Закрыть модальное окно
-    } catch (error) {
-      alert("Error creating user: " + error.message);
-    }
-  };
-
-  return (
-    <div className="modal-overlay4">
-      <div className="modal-content4">
-      <button type="button" style = {{marginTop: '0vw', width: '5%', marginLeft: '95%'}} onClick={onClose}>X</button>
-        <form className="registration-form" onSubmit={handleCreateUser}>
-          <div className="form-group">
-            <label htmlFor="name">Ім'я та Прізвище:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {errors.name && <div className="error">{errors.name}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">Телефон:</label>
-            <input
-              type="text"
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            {errors.phone && <div className="error">{errors.phone}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Пароль:</label>
-            <div className="password-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
+      if (!validatePassword(password)) {
+        passwordError = "Пароль повинен бути від 6 до 20 символів.";
+      }
+      if (!validateTelegramName(telegramName)) {  // Если Telegram имя заполнено, проверяем его
+        telegramNameError = "Телеграм ім'я повинно починатися з @ та мінімум 5 символів.";
+      }
+      if (phoneError || passwordError || telegramNameError) {
+        setErrors({
+          phone: phoneError,
+          password: passwordError,
+          name: nameError,
+          telegramName: telegramNameError,  // Добавляем ошибку для Telegram имени
+        });
+        return;
+      }
+  
+      try {
+        const response = await fetch(`${process.env.REACT_APP_URL}/register/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ phone, password, status, name, telegramName }),  // Добавляем telegramName в запрос
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Network error");
+        }
+        await fetchUsers();
+        await fetchUsersToAdd();
+        setPhone("+380");
+        setPassword("");
+        setStatus("add");
+        setName("");
+        setTelegramName("");  // Сбросить поле Telegram имени
+        alert("Користувача успішно створено!");
+        onClose(); // Закрыть модальное окно
+      } catch (error) {
+        alert("Error creating user: " + error.message);
+      }
+    };
+  
+    return (
+      <div className="modal-overlay4">
+        <div className="modal-content4">
+          <button type="button" style={{ marginTop: '0vw', width: '5%', marginLeft: '95%' }} onClick={onClose}>X</button>
+          <form className="registration-form" onSubmit={handleCreateUser}>
+            <div className="form-group">
+              <label htmlFor="name">Ім'я та Прізвище:</label>
               <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ flex: 1 }}
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="toggle-password2"
-              >
-                {showPassword ? "Сховати" : "Показати"}
-              </button>
+              {errors.name && <div className="error">{errors.name}</div>}
             </div>
-            {errors.password && <div className="error">{errors.password}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="status">Статус:</label>
-            <select
-              id="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="add">Постановщик задач</option>
-              <option value="receive">Отримувач задач</option>
-              <option value="add_and_receive">Постановщик та отримувач задач</option>
-            </select>
-          </div>
-          <button type="submit" className="create-button">Створити</button>
-        </form>
+            <div className="form-group">
+              <label htmlFor="phone">Телефон:</label>
+              <input
+                type="text"
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              {errors.phone && <div className="error">{errors.phone}</div>}
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Пароль:</label>
+              <div className="password-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="toggle-password2"
+                >
+                  {showPassword ? "Сховати" : "Показати"}
+                </button>
+              </div>
+              {errors.password && <div className="error">{errors.password}</div>}
+            </div>
+            <div className="form-group">
+              <label htmlFor="status">Статус:</label>
+              <select
+                id="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="add">Постановщик задач</option>
+                <option value="receive">Отримувач задач</option>
+                <option value="add_and_receive">Постановщик та отримувач задач</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="telegramName">Телеграм ім'я:</label>
+              <input
+                type="text"
+                id="telegramName"
+                value={telegramName}
+                onChange={(e) => setTelegramName(e.target.value)}
+              />
+              {errors.telegramName && <div className="error">{errors.telegramName}</div>}
+            </div>
+            <button type="submit" className="create-button">Створити</button>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 const ViewGroups = ({ token, usersToAdd, usersForGroup }) => {
   const [groups, setGroups] = useState([]);
@@ -548,16 +567,17 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
   const [isModalOpen, setIsModalOpen] = useState(false); // Для модального окна
   const [name, setName] = useState("");
   const [pass, setPass] = useState("");
+  const [telegramName, settelegramName] = useState("");  // Новое состояние для Телеграм-имени
   const [status, setStatus] = useState("add");
   const [NError, setNError] = useState(""); // Ошибка имени
-  const [PError, setPError] = useState(""); // Ошибка имени
+  const [PError, setPError] = useState(""); // Ошибка пароля
+  const [TError, setTError] = useState(""); // Ошибка Телеграм-имени
   const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
 
   const validatePassword = (password) => password.length >= 6 && password.length <= 20;
+  const validateName = (name) => name.length >= 2;
+  const validatetelegramName = (telegramName) => telegramName.length >= 5 && telegramName.startsWith('@');  // Валидация для Телеграм-имени
 
-  const validateName = (name) => {
-    return name.length >= 2;
-  };
   const handleCreateUserButtonClick = () => {
     setIsCreateUserModalOpen(true); // Открыть модальное окно для создания нового пользователя
   };
@@ -594,21 +614,29 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
     setEditingUser(user);
     setName(user.name);
     setStatus(user.status);
+    settelegramName(user.telegramName); // Устанавливаем Телеграм-имя
     setIsModalOpen(true); // Открытие модального окна
   };
 
   const handleSaveUser = async () => {
     setPError('');
     setNError('');
+    setTError('');
     if(!validateName(name)){
-      setNError("Ім'я повинно бути більше 2 символів ")
+      setNError("Ім'я повинно бути більше 2 символів");
       return ;
     }
     if(pass.length>=1){
-    if(!validatePassword(pass)){
-      setPError('Пароль повинен бути від 7 до 20 символів')
-      return ;
-    }}
+      if(!validatePassword(pass)){
+        setPError('Пароль повинен бути від 7 до 20 символів');
+        return ;
+      }
+    }
+    if (!validatetelegramName(telegramName)) {  // Проверка на Телеграм-имя
+      setTError("Телеграм ім'я повинно починатися з @ та мінімум 5 символів.");
+      return;
+    }
+    
     try {
       const response = await fetch(`${process.env.REACT_APP_URL}/edit_user`, {
         method: "POST",
@@ -620,7 +648,8 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
           id: editingUser._id,
           name,
           status,
-          password: pass
+          password: pass,
+          telegramName, // Добавляем Телеграм-имя
         }),
       });
 
@@ -633,6 +662,7 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
       setEditingUser(null);
       setSelectedUser(null);
       setPass('');
+      settelegramName('');  // Очистка поля Телеграм
     } catch (error) {
       alert("Error saving user: " + error.message);
     }
@@ -654,51 +684,53 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
   return (
     <div className="group-table" style={{marginRight: '2em',marginLeft: '-0.5vw'}}>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-      <img className="createuser-button" onClick={handleCreateUserButtonClick} src={plus} style={{width:'125px', height:'100px'}}></img>
+        <img className="createuser-button" onClick={handleCreateUserButtonClick} src={plus} style={{width:'125px', height:'100px'}} />
       </div>
-    <div className="user-table" style={{marginTop: "0vw"}}>
-      <table>
-        <thead>
-          <tr>
-            <th>Ім'я та Прізвище</th>
-            <th>Телефон</th>
-            <th>Статус</th>
-          </tr>
-        </thead>
-        <tbody>
-  {users.length === 0 ? (
-    <tr>
-      <td colSpan="3" style={{ textAlign: "center" }}>
-        Користувачів немає
-      </td>
-    </tr>
-  ) : (
-    users.map((user) => (
-      <tr
-        key={user._id}
-        onClick={() => handleRowSelect(user)}
-        className={selectedUser?._id === user._id ? "selectedgroup" : ""}
-      >
-        <td>{user.name}</td>
-        <td>{user.phone}</td>
-        <td>
-          {user.status === "add" && "Постановщик задач"}
-          {user.status === "receive" && "Отримувач задач"}
-          {user.status === "add_and_receive" && "Постановщик та отримувач задач"}
-        </td>
-      </tr>
-    ))
-  )}
-</tbody>
-      </table>
+      <div className="user-table" style={{marginTop: "0vw"}}>
+        <table>
+          <thead>
+            <tr>
+              <th>Ім'я та Прізвище</th>
+              <th>Телефон</th>
+              <th>Статус</th>
+              <th>Телеграм name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length === 0 ? (
+              <tr>
+                <td colSpan="3" style={{ textAlign: "center" }}>
+                  Користувачів немає
+                </td>
+              </tr>
+            ) : (
+              users.map((user) => (
+                <tr
+                  key={user._id}
+                  onClick={() => handleRowSelect(user)}
+                  className={selectedUser?._id === user._id ? "selectedgroup" : ""}
+                >
+                  <td>{user.name}</td>
+                  <td>{user.phone}</td>
+                  <td>
+                    {user.status === "add" && "Постановщик задач"}
+                    {user.status === "receive" && "Отримувач задач"}
+                    {user.status === "add_and_receive" && "Постановщик та отримувач задач"}
+                  </td>
+                  <td>{user.telegramName}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
 
       {/* Popup для кнопок */}
       {selectedUser && (
         <div className="action-popup">
-          <img onClick={handleCancelSelection} style = {{height: "4vw", width: '4.5vw', marginRight: '13%', cursor:'pointer',marginLeft: '3vw'}} src = {door}></img>
-          <img onClick={() => handleDeleteUser(selectedUser._id, selectedUser.phone)} style = {{height: "4vw", width: '4.5vw', marginRight: '12%', cursor:'pointer'}} src = {deleter}></img>
-          <img onClick={() => handleEditUser(selectedUser)} style = {{height: "4.7vw",marginTop: '0.3vw', width: '4.5vw', cursor:'pointer'}} src = {changer}></img>
+          <img onClick={handleCancelSelection} style={{height: "4vw", width: '4.5vw', marginRight: '13%', cursor:'pointer', marginLeft: '3vw'}} src={door}></img>
+          <img onClick={() => handleDeleteUser(selectedUser._id, selectedUser.phone)} style={{height: "4vw", width: '4.5vw', marginRight: '12%', cursor:'pointer'}} src={deleter}></img>
+          <img onClick={() => handleEditUser(selectedUser)} style={{height: "4.7vw", marginTop: '0.3vw', width: '4.5vw', cursor:'pointer'}} src={changer}></img>
         </div>
       )}
 
@@ -713,7 +745,6 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
                 type="text"
                 id="name"
                 value={name}
-                style = {{marginTop: '0.5em'}}
                 onChange={(e) => setName(e.target.value)}
               />
               {NError && <p style={{ color: "red" }}>{NError}</p>}
@@ -723,7 +754,6 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
               <select
                 id="status"
                 value={status}
-                style = {{marginTop: '0.5em'}}
                 onChange={(e) => setStatus(e.target.value)}
               >
                 <option value="add">Постановщик задач</option>
@@ -732,12 +762,21 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
               </select>
             </div>
             <div className="form-group">
+              <label htmlFor="telegramName">Телеграм ім'я:</label>
+              <input
+                type="text"
+                id="telegramName"
+                value={telegramName}
+                onChange={(e) => settelegramName(e.target.value)}
+              />
+              {TError && <p style={{ color: "red" }}>{TError}</p>}
+            </div>
+            <div className="form-group">
               <label htmlFor="name">Новий пароль:</label>
               <input
                 type="text"
                 id="name"
                 value={pass}
-                style = {{marginTop: '0.5em'}}
                 onChange={(e) => setPass(e.target.value)}
               />
               {PError && <p style={{ color: "red" }}>{PError}</p>}
@@ -757,9 +796,9 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
         <CreateUserForm 
           fetchUsers={fetchUsers}
           token={token}
-          fetchUsersForGroup = {fetchUsersForGroup}
-          fetchUsersToAdd = {fetchUsersToAdd}
-          onClose={handleCloseCreateUserModal} // функция для закрытия формы
+          fetchUsersForGroup={fetchUsersForGroup}
+          fetchUsersToAdd={fetchUsersToAdd}
+          onClose={handleCloseCreateUserModal}
         />
       )}
     </div>

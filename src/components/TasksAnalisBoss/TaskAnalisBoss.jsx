@@ -1,6 +1,82 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TaskAnalisBoss.module.css";
 import excel from "../../excel.png";
+import userslist from "../../userslist.png";
+const GroupUsersModal = ({ isOpen, onClose, selectedGroup, groupUsers }) => {
+    if (!isOpen) return null;
+  
+    return (
+      <div className={styles.modalOverlay}>
+        <div className={styles.modalContent}>
+          <button className={styles.closeButton} onClick={onClose}>
+            ×
+          </button>
+          <h2 style={{ marginTop: '0.5em' }}>
+            Користувачі в групі: {selectedGroup}
+          </h2>
+          <table className={styles.groupUsersTable}>
+            <thead>
+              <tr>
+                <th>Ім'я</th>
+                <th>Телефон</th>
+                <th>Telegram</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groupUsers.map((user, index) => (
+                <tr key={index}>
+                  <td>{user.name}</td>
+                  <td>{user.phone}</td>
+                  <td>{user.telegramName || "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  const GroupUsersModal2 = ({ isOpen, onClose, groupsUsers }) => {
+    if (!isOpen) return null;
+  
+    return (
+      <div className={styles.modalOverlay}>
+        <div className={styles.modalContent}>
+          <button className={styles.closeButton} onClick={onClose}>
+            ×
+          </button>
+          <h2 style={{ marginTop: '0.5em', marginBottom:'1em' }}>Користувачі в групах</h2>
+  
+          <div className={styles.groupsContainer}>
+            {Object.keys(groupsUsers).map((groupName, index) => (
+              <div key={index} className={styles.groupSection}>
+                <h3 >{groupName}</h3>
+                <table style = {{marginTop:'10px', marginBottom:'1em'}}className={styles.groupUsersTable}>
+                  <thead>
+                    <tr>
+                      <th>Ім'я</th>
+                      <th>Телефон</th>
+                      <th>Telegram</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groupsUsers[groupName].map((user, index) => (
+                      <tr key={index}>
+                        <td>{user.name}</td>
+                        <td>{user.phone}</td>
+                        <td>{user.telegramName || "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
 function TasksAnalisBoss() {
     const getMidnightDate = () => {
@@ -8,8 +84,11 @@ function TasksAnalisBoss() {
         midnight.setHours(0, 0, 0, 0);
         return midnight;
     };
-
+    const [groupUsers, setGroupUsers] = useState([]);
+    const [isGroupUsersModalOpen, setIsGroupUsersModalOpen] = useState(false);
     const [groupsData, setGroupsData] = useState({});
+    const [isGroupUsersModalOpen2, setIsGroupUsersModalOpen2] = useState(false);
+    const [groupUsers2, setGroupUsers2] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [selectedDate, setSelectedDate] = useState(getMidnightDate());
     const [EndselectedDate, setEndSelectedDate] = useState(getMidnightDate());
@@ -135,6 +214,45 @@ function TasksAnalisBoss() {
         }
         setSelectedDate(selected);
     };
+    const getuserslist2 = async () => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_URL}/get_users_info_group2`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ groups_names: selectedGroups }),
+          });
+          const data = await response.json();
+          setGroupUsers2(data); // Сохраняем пользователей в состояние
+          setIsGroupUsersModalOpen2(true); // Открываем модалку
+          if (!response.ok) throw new Error("Failed to fetch users");
+        } catch (error) {
+          alert("Помилка при отриманні користувачів групи: " + error.message);
+        }
+      };
+
+    const getuserslist = async () => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_URL}/get_users_info_group`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ group_name: selectedGroup }),
+          });
+      
+          if (!response.ok) throw new Error("Failed to fetch users");
+      
+          const data = await response.json();
+          setGroupUsers(data.users); // Сохраняем пользователей в состояние
+          setIsGroupUsersModalOpen(true); // Открываем модалку
+        } catch (error) {
+          alert("Помилка при отриманні користувачів групи: " + error.message);
+        }
+      };
 
     const handleDateChange2 = (e) => {
         const selected = new Date(e.target.value);
@@ -160,7 +278,24 @@ function TasksAnalisBoss() {
     };
 
     return (
+        
         <div className={styles.pageContainer}>
+{isGroupUsersModalOpen && (
+  <GroupUsersModal
+    isOpen={isGroupUsersModalOpen}
+    onClose={() => setIsGroupUsersModalOpen(false)}
+    selectedGroup={selectedGroup}
+    groupUsers={groupUsers}
+  />
+)}
+{isGroupUsersModalOpen2 && (
+  <GroupUsersModal2
+    isOpen={isGroupUsersModalOpen2}
+    onClose={() => setIsGroupUsersModalOpen2(false)}
+    groupsUsers={groupUsers2}
+  />
+)}
+
             <div style={{ marginTop: "5vw", marginBottom: "2em", textAlign: "center" }}>
                 <input
                     type="date"
@@ -236,6 +371,7 @@ function TasksAnalisBoss() {
                     }} className={styles.backButton}>
                         ← Назад
                     </button>
+                    <img src={userslist} onClick={getuserslist2} className={styles.userimage} alt="Користувачі" />
                     <img src={excel} onClick={downloadExcelFile2} className={styles.excelimage} alt="Скачати Excel" />
                     <table className={styles.groupTable}>
                         <thead>
@@ -289,6 +425,7 @@ function TasksAnalisBoss() {
                     <button onClick={() => setSelectedGroup(null)} className={styles.backButton}>
                         ← Назад
                     </button>
+                    <img src={userslist} onClick={getuserslist} className={styles.userimage} alt="Користувачі" />
                     <img src={excel} onClick={downloadExcelFile} className={styles.excelimage} alt="Скачати Excel" />
                     {groupsData[selectedGroup] && (
                         <table className={styles.groupTable}>

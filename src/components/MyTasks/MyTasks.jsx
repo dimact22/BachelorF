@@ -10,6 +10,136 @@ import more from "../../more.png"
 
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
+const PhotoModal = ({ isOpen, onSubmit, onCancel, needphoto, setphotos }) => {
+  const [photos, setPhotos] = useState([]);
+
+  if (!isOpen) return null;
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const newPhotos = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+    setPhotos((prev) => [...prev, ...newPhotos]);
+  };
+
+  const handleRemove = (index) => {
+    const updated = [...photos];
+    URL.revokeObjectURL(updated[index].preview); // освобождение ресурсов
+    updated.splice(index, 1);
+    setPhotos(updated);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (photos.length === 0 && needphoto === 1) {
+      alert("Потрібно додати хоча б одне фото!");
+      return;
+    }
+    setphotos(photos);
+    onCancel();
+    onSubmit();
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onCancel}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h3 style={{ marginBottom: "0.5em" }}>{needphoto === 0 ? "Фото" : "Фото*"}</h3>
+
+        <div style={{ marginBottom: "1em" }}  className="photocontainer">
+          <label className="upload-label">
+            {photos.length === 0 ? "Завантажити фото" : "Завантажити ще"}
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+          </label>
+        </div>
+
+        {/* Список файлов */}
+        <div className={photos.length === 0 ? "" : "photo-list"}>
+          {photos.map((photo, index) => (
+            <div key={index} className="photo-list-item">
+              <a
+                href={photo.preview}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="photo-link"
+              >
+                {photo.file.name}
+              </a>
+              <button onClick={() => handleRemove(index)} className="delete-button-inline">
+                Видалити
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1em" }}>
+          <button className="action-button cancel-button" onClick={onCancel}>
+            Відмінити
+          </button>
+          <button className="action-button submit-button" onClick={handleSubmit}>
+            Відправити
+          </button>
+        </div>
+      </div>
+
+      <style>{`
+        .upload-label {
+          display: inline-block;
+          padding: 10px 15px;
+          background-color: #4caf50;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .photo-list {
+          height: auto;
+          max-height: 40vh;
+          overflow-y: auto;
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #f9f9f9;
+        }
+
+        .photo-list-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px 0;
+          border-bottom: 1px solid #eee;
+        }
+
+        .photo-link {
+          color: #007bff;
+          text-decoration: underline;
+          word-break: break-all;
+        }
+
+        .delete-button-inline {
+          background-color: #e53935;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .delete-button-inline:hover {
+          background-color: #d32f2f;
+        }
+      `}</style>
+    </div>
+  );
+};
+
 
 const CommentModal = ({ isOpen, onSubmit, onCancel, needcom }) => {
   const [comment, setComment] = useState("");
@@ -114,8 +244,10 @@ const TaskDetailModal = ({ task, isOpen, onClose }) => {
 
 const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks  }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [photos, setPhotos] = useState([]);
   const [allowToRun, setAllowToRun] = useState(true);
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [isCommentModalOpen2, setIsCommentModalOpen2] = useState(false);
   const [buttonState, setButtonState] = useState("Почати завдання");
   const [isPause, setIsPause] = useState(0);
@@ -209,31 +341,38 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
     const currentTime = getKyivTime();
     const token = localStorage.getItem("token");
     const savedTaskState = JSON.parse(localStorage.getItem("taskState")) || {};
-
+  
     if (savedTaskState[task._id]?.pause === 1) {
       alert("Перед завершенням завдання ви повинні завершити паузу");
       return;
     }
+  
     const time1 = parseTime(currentTime);
+  
+    const formData = new FormData();
+    formData.append("start_time", savedTaskState[task._id].start_time);
+    formData.append("finish_time", currentTime);
+    formData.append("pause_start", JSON.stringify(savedTaskState[task._id].pause_start));
+    formData.append("pause_end", JSON.stringify(savedTaskState[task._id].pause_end));
+    formData.append("id_task", task._id);
+    formData.append("group", task.group);
+    formData.append("task_name", task.title);
+    formData.append("keyTime", task.key);
+    formData.append("comment", comment || "");
+    formData.append("in_time", compareTimes(time1, task.end_time));
+  
+    // Добавить фото
+    photos.forEach((photo) => {
+      formData.append("images", photo.file); // photo.file должен быть File объектом
+    });
+  
     try {
-      const response = await fetch(`${process.env.REACT_APP_URL}/push_task/`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/push_task`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}` // НЕ добавляй Content-Type, браузер сам установит
         },
-        body: JSON.stringify({
-          start_time: savedTaskState[task._id].start_time,
-          finish_time: currentTime,
-          pause_start: savedTaskState[task._id].pause_start,
-          pause_end: savedTaskState[task._id].pause_end,
-          id_task: task._id,
-          keyTime: task.key,
-          intime: task.end_time,
-          group: task.group,
-          comment, 
-          in_time: compareTimes(time1, task.end_time)
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -253,7 +392,7 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
     if (!window.confirm(`Ви впевнені, що хочете відмінити це завдання?`)) {
       return;
     }
-    setIsCommentModalOpen2(true);
+    setIsPhotoModalOpen(true);//setIsCommentModalOpen2(true);
   }
   const handleCancelTask = async (comment) => {
     const currentTime = getKyivTime();
@@ -295,7 +434,7 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
       localStorage.setItem("taskState", JSON.stringify(savedTaskState));
       setButtonState("Завершити завдання");
     } else {
-      setIsCommentModalOpen(true); // Открыть окно с вводом комментария
+      setIsPhotoModalOpen(true);//setIsCommentModalOpen(true); // Открыть окно с вводом комментария
     }
   };
 
@@ -429,6 +568,17 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
               onCancel={() => setIsCommentModalOpen2(false)} // Закрыть модальное окно без действия
             />
           )}
+          {isPhotoModalOpen && (
+            <PhotoModal
+              isOpen={isPhotoModalOpen}
+              needphoto={task.needphoto}
+              setphotos = {setPhotos}
+              onSubmit={() => {
+                setIsCommentModalOpen(true); // Закрыть модальное окно
+              }}
+              onCancel={() => setIsPhotoModalOpen(false)} // Закрыть модальное окно без действия
+            />
+          )}
           {isCommentModalOpen && (
             <CommentModal
               isOpen={isCommentModalOpen}
@@ -458,6 +608,23 @@ const MyTasks = () => {
   const [EndselectedDate, setEndSelectedDate] = useState(getMidnightDate());
   const [token, setToken] = useState('');
   const normalizeDate = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const downloadFile = async (fileId) => {
+    const response = await fetch(`${process.env.REACT_APP_URL}/download_file/${fileId}`, {
+        method: "GET",
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "filename.jpg"; // Замените на название вашего файла
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } else {
+        alert("Ошибка при скачивании файла");
+    }
+};
   const formatDateForInput = (date) => {
     const year = date.getFullYear();
     const month = `${date.getMonth() + 1}`.padStart(2, '0');
@@ -686,6 +853,7 @@ const formattedDate = `${day}.${month}.${year}`;
           </tbody>
         </table>
       </div>
+      {/*<p onClick={() => downloadFile('6824a5f4d66707f0f89827b1')}>fdsfsdfdf</p>*/}
     </div>
   );
 };

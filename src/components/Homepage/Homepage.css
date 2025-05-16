@@ -73,12 +73,6 @@
   .login-button:hover {
     background-color: #0f30e6;;
   }
-  
-  .error {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-  }
 
   .popup {
     position: fixed;
