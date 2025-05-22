@@ -392,7 +392,7 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
     if (!window.confirm(`Ви впевнені, що хочете відмінити це завдання?`)) {
       return;
     }
-    setIsPhotoModalOpen(true);//setIsCommentModalOpen2(true);
+    setIsCommentModalOpen2(true);
   }
   const handleCancelTask = async (comment) => {
     const currentTime = getKyivTime();
@@ -408,6 +408,8 @@ const TaskItem = ({ task, selectedDate, onTaskSelected, TaskSelected, complTasks
         body: JSON.stringify({
           cancel_time: currentTime,
           id_task: task._id,
+          task_name: task.title,
+          group: task.group,
           comment, // Отправка комментария
         }),
       });

@@ -93,6 +93,13 @@ const AdminPage = () => {
     }
   }, [token]); // Зависимость от токена
 
+  useEffect(() => {
+    if (token) {
+      fetchUsersToAdd();
+      fetchUsersForGroup();
+    }
+  }, [users]); // Зависимость от токена
+
   // Рендерим соответствующий контент в зависимости от активной вкладки
   const renderContent = () => {
     switch (activeTab) {
@@ -129,7 +136,7 @@ const AdminPage = () => {
   );
 };
 
-  const CreateUserForm = ({ fetchUsers, fetchUsersToAdd, token, onClose }) => {
+const CreateUserForm = ({ fetchUsers, fetchUsersToAdd, token, onClose }) => {
     console.log("CreateUserForm получил props:", { fetchUsers, fetchUsersToAdd, token });
     
     const [phone, setPhone] = useState("+380");
@@ -274,7 +281,7 @@ const AdminPage = () => {
         </div>
       </div>
     );
-  };
+};
 
 const ViewGroups = ({ token, usersToAdd, usersForGroup }) => {
   const [groups, setGroups] = useState([]);
@@ -699,7 +706,7 @@ const UserTable = ({ users, token, fetchUsers, fetchUsersToAdd, fetchUsersForGro
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan="3" style={{ textAlign: "center" }}>
+                <td colSpan="4" style={{ textAlign: "center" }}>
                   Користувачів немає
                 </td>
               </tr>
@@ -882,7 +889,7 @@ const CreateGroupForm = ({ usersToAdd, usersForGroup,fetchGroups, token, onClose
   return (
     <div className="modal-overlay4">
       <div className="modal-content4">
-      <button type="button" style = {{marginTop: '-1vw', width: '5%', marginLeft: '95%'}} onClick={onClose}>X</button>
+      <button type="button" style = {{ width: '5%', marginLeft: '95%'}} onClick={onClose}>X</button>
     <form className="create-group-form-container" onSubmit={handleCreateGroup}>
       <div className="form-group-item">
         <label htmlFor="groupName" className="label-group-name">

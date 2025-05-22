@@ -6,6 +6,7 @@ import AddTasks from "../AddTasksPage/AddTasksPage"
 import MyTasks from "../MyTasks/MyTasks"
 import TasksAnalisBoss from "../TasksAnalisBoss/TaskAnalisBoss"
 import TasksPage from "../TasksPage/TasksPage"
+import MyTasksAnalis from "../MyTasksAnalis/MyTasksAnalis";
 
 const HomePage = () => {
   const [status, setStatus] = useState(null);
@@ -99,7 +100,7 @@ const HomePage = () => {
       case "MyTasks":
         return <MyTasks />;
       case "TasksHistory":
-        return <div style={{marginRight:'5em', marginTop: '5em'}}>Буде історія завдань та аналіз</div>
+        return <MyTasksAnalis />;
         case "TasksHistory2":
         return <TasksAnalisBoss />;
       case "MyCreatedTasks":

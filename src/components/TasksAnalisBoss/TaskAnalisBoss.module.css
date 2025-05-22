@@ -229,7 +229,308 @@
 .backButton:hover {
   background-color: #1976d2;
 }
+.wrapper {
+  padding: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
+
+@media (max-width: 1150px) {
+  .pageContainer {
+    margin-top: 500px;
+  }
+  .searchRow{
+    flex-direction: column;
+    align-items: center;
+  }
+  .selectButton{
+    margin-bottom: 1rem;
+    margin-top: 5px;
+  }
+}
+.groupCardSelected
+.scrollContainer {
+  margin-top: 25px;
+  max-height: 70vh;
+  overflow-y: auto;
+  border-radius: 14px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 50px;
+  padding-top: 15px;
+}
+.groupCardSelected{
+  background-color: #a4d5f8!important;
+}
+.groupsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.groupCard {
+  width: 70vw;
+  max-width: 800px;
+  background-color: #E3F2FD;
+  padding: 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: #01579B;
+  font-weight: bold;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.groupCard:hover {
+  transform: scale(1.02);
+}
+.taskCard {
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+.taskContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* теперь фото будет по центру по вертикали */
+}
+
+.taskText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.taskImage {
+  margin-left: 20px;
+  display: flex;
+  align-items: center; /* тоже на всякий случай */
+  justify-content: center;
+}
+
+.taskImage img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+.taskCard:hover {
+  background-color: #f9f9f9;
+}
+
+.taskHeader {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.expandedSection {
+  margin-top: 1rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.commentbox {
+  margin-top: 10px;
+  max-width: 100%;
+}
+.taskDetails {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.taskDetails p {
+  margin: 10px 0;
+}
+
+.taskDetails strong {
+  display: inline-block;
+  min-width: 160px;
+  color: #222;
+}
+
+.taskDetails p:last-child {
+  margin-bottom: 0;
+}
+.taskDetails p,
+.taskDetails div {
+white-space: normal;
+word-wrap: break-word;
+word-break: break-word;
+overflow-wrap: break-word;
+}
+.Link {
+color: #007bff; /* синий цвет как у ссылки */
+text-decoration: none; /* подчеркнутый текст */
+cursor: pointer; /* курсор-ссылка */
+transition: color 0.2s ease;
+}
+
+.Link:hover {
+color: #0056b3; /* темнее при наведении */
+}
+.commentcontent {
+  max-height: 200px;         /* ограничение по высоте */
+  overflow-y: auto;          /* вертикальная прокрутка при необходимости */
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  margin-top: 4px;
+  word-break: break-word;    /* переносим длинные слова */
+  white-space: pre-wrap;     /* сохраняем форматирование */
+  font-size: 14px;
+}
+
+.photosGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 10px;
+}
+
+.image {
+  width: calc(33.333% - 0.5rem);
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.searchInput {
+  display: block;
+  margin: 0 auto 1.5em auto;
+  padding: 0.6em 1em;
+  width: 60%;
+  max-width: 500px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.searchRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* на случай маленького экрана */
+  margin-bottom: 1rem;
+}
+
+.searchInput {
+  flex-grow: 1;
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.taskTitle {
+  word-break: break-word;
+  white-space: normal;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  position: relative;
+  max-width: 50%;
+  max-height: 90%;
+  text-align: center;
+  overflow: auto;
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 8px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.selectButton,
+.reportButton,
+.backButton {
+background-color: #4caf50;
+color: white;
+border: none;
+padding: 0.5em 1.2em;
+border-radius: 8px;
+font-size: 16px;
+transform: translateY(-15px);
+cursor: pointer;
+transition: background-color 0.2s ease;
+white-space: nowrap;
+}
+.selectButton{
+background-color: #2196f3!important;
+}
+.reportButton{
+margin-left: 5px;
+}
+
+.selectButton:hover,
+.reportButton:hover,
+.backButton:hover {
+background-color: #45a049;
+}
+
+.backButton {
+background-color: #2196f3;
+}
+
+.backButton:hover {
+background-color: #1976d2;
+}
+
+.noPhotos {
+  color: #999;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @media (max-width: 1150px) {
   .pageContainer {

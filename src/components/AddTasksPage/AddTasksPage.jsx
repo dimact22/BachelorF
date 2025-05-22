@@ -34,7 +34,6 @@ const AddTasksPage = ({onClose}) => {
     const taskTypeOptions = [
         { value: "general", label: "Загальні" },
         { value: "weekly", label: "Щотижневі" },
-        { value: "monthly", label: "Щомісячні" },
     ];
 
     const importanceOptions = [
